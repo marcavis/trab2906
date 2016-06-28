@@ -55,7 +55,7 @@ public class TelaCliente extends Composite {
 		labelNasc.setBounds(10, 47, 97, 19);
 		
 		dateTime = new DateTime(this, SWT.BORDER | SWT.LONG);
-		dateTime.setBounds(113, 39, 181, 27);
+		dateTime.setBounds(113, 39, 181, 54);
 		
 		//Calendar cal = Calendar.getInstance();
 		//cal.setTime(date);
@@ -64,7 +64,7 @@ public class TelaCliente extends Composite {
 		
 		Group grpSexo = new Group(this, SWT.NONE);
 		grpSexo.setText("Sexo");
-		grpSexo.setBounds(10, 72, 284, 46);
+		grpSexo.setBounds(10, 99, 284, 46);
 		
 		btnMasc = new Button(grpSexo, SWT.RADIO);
 		btnMasc.setBounds(10, 0, 114, 24);
@@ -76,11 +76,11 @@ public class TelaCliente extends Composite {
 		btnFem.setBounds(154, 0, 114, 24);
 		
 		btnIncluir = new Button(this, SWT.NONE);
-		btnIncluir.setBounds(10, 124, 94, 33);
+		btnIncluir.setBounds(10, 151, 94, 33);
 		btnIncluir.setText("Incluir");
 		
 		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setBounds(10, 195, 560, 308);
+		table.setBounds(10, 190, 560, 281);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		btnIncluir.addSelectionListener(new SelectionAdapter() {

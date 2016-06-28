@@ -52,9 +52,9 @@ public class Cliente {
 	public static ArrayList<Cliente> listar(String filtro) {
 		ArrayList<Cliente> lista = new ArrayList<Cliente>();
 		String sql = "select * from paciente order by nome";
-		if(filtro != null) {
-			sql = "select * from paciente where nome like ? order by nome";
-		}
+		//if(filtro != null) {
+		//	sql = "select * from paciente where nome like ? order by nome";
+		//}
 		try {
 			PreparedStatement ps = Principal.conn.prepareStatement(sql);
 			
