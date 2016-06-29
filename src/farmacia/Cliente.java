@@ -12,7 +12,7 @@ public class Cliente {
 	private String sexo; 
 	
 	public void cadastrar() {
-		String sql = "insert into paciente (nome, data_nasc, sexo) values (?,?,?)";
+		String sql = "insert into cliente (nome, data_nasc, sexo) values (?,?,?)";
 		try {
 			PreparedStatement ps = Principal.conn.prepareStatement(sql);
 			ps.setString(1, getNome());
@@ -25,7 +25,7 @@ public class Cliente {
 	}
 	
 	public void alterar() {
-		String sql = "update paciente set nome=?, data_nasc=?, sexo=? where id=?";
+		String sql = "update cliente set nome=?, data_nasc=?, sexo=? where id=?";
 		try {
 			PreparedStatement ps = Principal.conn.prepareStatement(sql);
 			ps.setString(1, getNome());
@@ -39,7 +39,7 @@ public class Cliente {
 	}
 	
 	public void excluir() {
-		String sql = "delete from paciente where id=?";
+		String sql = "delete from cliente where id=?";
 		try {
 			PreparedStatement ps = Principal.conn.prepareStatement(sql);
 			ps.setInt(1, getId());
@@ -49,18 +49,15 @@ public class Cliente {
 		}
 	}
 	
-	public static ArrayList<Cliente> listar(String filtro) {
+	public static ArrayList<Cliente> listar() {
 		ArrayList<Cliente> lista = new ArrayList<Cliente>();
-		String sql = "select * from paciente order by nome";
+		String sql = "select * from cliente order by nome";
 		//if(filtro != null) {
-		//	sql = "select * from paciente where nome like ? order by nome";
+		//	sql = "select * from cliente where nome like ? order by nome";
 		//}
 		try {
 			PreparedStatement ps = Principal.conn.prepareStatement(sql);
 			
-			if(filtro != null) {
-				ps.setString(1, filtro);
-			}
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				Cliente c = new Cliente();
@@ -78,7 +75,7 @@ public class Cliente {
 	
 	public Cliente buscaPorID(int id) {
 		Cliente c = new Cliente();
-		String sql = "select * from paciente where id=?";
+		String sql = "select * from cliente where id=?";
 		try {
 			PreparedStatement ps = Principal.conn.prepareStatement(sql);
 			ps.setInt(1, id);

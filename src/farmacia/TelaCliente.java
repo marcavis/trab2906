@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
@@ -30,7 +32,11 @@ public class TelaCliente extends Composite {
 	private Color white;
 	
 	private Button btnIncluir;
+	private Button btnAlterar;
+	private Button btnExcluir;
 	private Table table;
+	
+	private Cliente selecionado;
 	
 	private ArrayList<Cliente> lista = new ArrayList<Cliente>();
 
@@ -78,23 +84,64 @@ public class TelaCliente extends Composite {
 		btnIncluir = new Button(this, SWT.NONE);
 		btnIncluir.setBounds(10, 151, 94, 33);
 		btnIncluir.setText("Incluir");
-		
-		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setBounds(10, 190, 560, 281);
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
 		btnIncluir.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					getTela().cadastrar();
 				} catch (NullPointerException ef) {
-					
+					ef.printStackTrace();
 				}
 				
 				preencheTabela(null);
 			}
 		});
+		
+		btnAlterar = new Button(this, SWT.NONE);
+		btnAlterar.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					Cliente novo = getTela();
+					novo.setId(selecionado.getId());
+					novo.alterar();
+				} catch (NullPointerException ef) {
+					ef.printStackTrace();
+				}
+				preencheTabela(null);
+			}
+		});
+		btnAlterar.setText("Alterar");
+		btnAlterar.setBounds(110, 151, 94, 33);
+		
+		btnExcluir = new Button(this, SWT.NONE);
+		btnExcluir.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				selecionado.excluir();
+				preencheTabela(null);
+			}
+		});
+		btnExcluir.setText("Excluir");
+		btnExcluir.setBounds(210, 151, 94, 33);
+		
+		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
+		table.setBounds(10, 190, 560, 281);
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				try {
+					selecionado = lista.get(table.getSelectionIndex());
+					setTela(selecionado);
+				} catch (ArrayIndexOutOfBoundsException aioobe) {
+					aioobe.printStackTrace();
+				}
+			}
+		});
+		
+		
 		
 		TableColumn tblclmnId = new TableColumn(table, SWT.NONE);
 		tblclmnId.setWidth(100);
@@ -113,11 +160,16 @@ public class TelaCliente extends Composite {
 		tblclmnSexo.setText("Sexo");
 
 		preencheTabela(null);
+		
+//		Calendar cal = Calendar.getInstance();
+//		cal.setTime(lista.get(0).getNascimento());
+//		cal.add(Calendar.DATE, 7);
+//		System.out.println(cal.getTime());
 	}
 
 	private void preencheTabela(String filtro) {
 		table.setItemCount(0);
-		lista = Cliente.listar(filtro);
+		lista = Cliente.listar();
 		for(Cliente c : lista) {
 			TableItem it = new TableItem(table, SWT.NONE);
 			it.setText(c.toArray());
@@ -144,10 +196,14 @@ public class TelaCliente extends Composite {
 	private void setTela(Cliente c) {
 		textNome.setText(c.getNome());
 		dateTime.setDate(c.getNascimento().getYear(),c.getNascimento().getMonth(), c.getNascimento().getDate());
-		if (c.getSexo().equals("M"))
+		if (c.getSexo().equals("M")) {
 			btnMasc.setSelection(true);
-		else
+			btnFem.setSelection(false);
+		}
+		else {
+			btnMasc.setSelection(false);
 			btnFem.setSelection(true);
+		}
 	}
 	
 	@Override

@@ -18,13 +18,13 @@ public class Principal extends Shell {
 	private CTabItem tabClientes;
 	private CTabItem tabMedicamentos;
 	private CTabItem tabCompras;
-	//private CTabItem tabCadBI;
+	private CTabItem tabRelatorios;
 	//private CTabItem tabBackup;
 	
 	private Composite compClientes;
 	private Composite compMedicamentos;
 	private Composite compCompras;
-	//private Composite compCadBI;
+	private Composite compRelatorios;
 	//private Composite compBackup;
 	
 	private CTabFolder tabFolder;
@@ -127,6 +127,25 @@ public class Principal extends Shell {
 		
 		new MenuItem(menu_1, SWT.SEPARATOR);
 		
+		MenuItem mntmrelatorio = new MenuItem(menu_1, SWT.NONE);
+		mntmrelatorio.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if(!verificaAba("Relatórios")) { 
+					tabRelatorios = new CTabItem(tabFolder, SWT.NONE);
+					tabRelatorios.setShowClose(true);
+					tabRelatorios.setText("Relatórios");
+				
+					compRelatorios = new TelaRelatorio(tabFolder, SWT.NONE);
+					tabRelatorios.setControl(compRelatorios);
+					tabFolder.setSelection(tabRelatorios);
+				}
+			}
+		});
+		mntmrelatorio.setText("&Relatórios");
+		
+		new MenuItem(menu_1, SWT.SEPARATOR);
+		
 		MenuItem mntmsair = new MenuItem(menu_1, SWT.NONE);
 		mntmsair.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -164,7 +183,7 @@ public class Principal extends Shell {
 	protected void createContents() {
 		setText("SWT Application");
 		setSize(638, 640);
-
+		setLocation(500, 200);
 	}
 
 	@Override
